@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import NumberFormat from 'react-number-format';
+import './Leg.css';
 import FaTrashO from 'react-icons/lib/fa/trash-o';
 
 class Leg extends Component {
@@ -55,7 +56,7 @@ class Leg extends Component {
             allowNegative={false}
             onValueChange={ this.onElevationChange } /> 
         </span>
-        <FaTrashO onClick={ this.onDelete }/>
+        <FaTrashO onClick={ this.onDelete } className="Leg-clickable"/>
       </div>
     );
   }

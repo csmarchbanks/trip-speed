@@ -121,7 +121,7 @@ class Munter extends Component {
         <h2>Legs</h2>
         <div>
           { this.legs()	}
-          <div onClick={this.addLeg}>
+          <div onClick={this.addLeg} className="Munter-clickable">
             <FaPlus/><span> Add Leg </span>
           </div>
         </div>

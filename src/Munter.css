@@ -1,3 +1,7 @@
 .Munter-list {
   list-style-type: none;
 }
+
+.Munter-clickable {
+  cursor: pointer;
+}
