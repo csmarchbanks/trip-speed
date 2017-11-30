@@ -108,9 +108,8 @@ class Munter extends Component {
   render() {
     return (
       <div className="Munter">
-        <h2>Munter Time Calculation</h2>
         <p> 
-          In order to use this enter the speed, distance (km), and elevation change (m) for
+          Usage: Enter the speed, distance(km), and elevation change(m), for
           each leg of your trip. Good estimates for speed are:
         </p>
         <ul className="Munter-list">
