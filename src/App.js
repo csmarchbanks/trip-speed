@@ -5,6 +5,7 @@ import Munter from './Munter';
 
 class App extends Component {
   render() {
+    const defaultLegs = [{ speed: 4, distance: 8, elevation: 500 }];
     return (
       <div className="App">
         <header className="App-header">
@@ -13,7 +14,7 @@ class App extends Component {
         </header>
         <p className="App-intro">
         </p>
-        <Munter></Munter>
+        <Munter defaultLegs={defaultLegs}></Munter>
       </div>
     );
   }

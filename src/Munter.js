@@ -1,39 +1,52 @@
 import React, { Component } from 'react';
+import './Munter.css';
 import Leg from './Leg';
-import moment from 'moment';
 import uuid from 'uuid';
 import FaPlus from 'react-icons/lib/fa/plus';
+
+const localStorageKey = 'munter';
 
 class Munter extends Component {
   constructor(props) {
     super(props);
     let storedState = this.getInitialState();
     if (!storedState) {
-      const id = uuid.v4()
+      const order = props.defaultLegs.map((leg) => {
+        return uuid.v4();
+      });
+      const legs = props.defaultLegs.reduce((accumulator, leg, index) => {
+        accumulator[order[index]] = leg;
+        return accumulator
+      }, {});
       storedState = {
-        legs: {
-          [id]:{speed: 4, distance: 8, elevation: 500 },
-        },
-        legOrder: [id],
+        legs: legs,
+        legOrder: order,
       };
     }
     this.state = storedState;
   }
 
   componentWillUpdate() {
-    localStorage.setItem('munter', JSON.stringify(this.state));
+    localStorage.setItem(localStorageKey, JSON.stringify(this.state));
   }
 
   getInitialState() {
-    return JSON.parse(localStorage.getItem('munter'));
+    try {
+      return JSON.parse(localStorage.getItem(localStorageKey));
+    } catch (e) {
+      return null;
+    }
   }
 
   calculateTime = () => {
     const legs = Object.values(this.state.legs)
-    const hours = legs.reduce((sum, leg) => {
+    const timeInHours = legs.reduce((sum, leg) => {
       return sum + (leg.distance + leg.elevation/100)/leg.speed
     }, 0);
-    return moment.unix(hours*3600).utc().format('HH:mm');
+    const hours = Math.floor(timeInHours);
+    let minutes = Math.round((timeInHours - hours)* 60);
+    minutes = minutes < 10 ? '0' + minutes : minutes;
+    return hours + ":" + minutes;
   }
 
   onLegChange = ({id, speed, distance, elevation}) => {
@@ -94,13 +107,13 @@ class Munter extends Component {
 
   render() {
     return (
-      <div>
+      <div className="Munter">
         <h2>Munter Time Calculation</h2>
-        <p className="App-intro"> 
+        <p> 
           In order to use this enter the speed, distance (km), and elevation change (m) for
           each leg of your trip. Good estimates for speed are:
         </p>
-        <ul>
+        <ul className="Munter-list">
           <li>Uphill travel (foot or skis) = 4</li>
           <li>Flat or downhill travel = 6</li>
           <li>Downhill on skis = 10</li>
