@@ -1,12 +1,14 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import Leg from './Leg';
+import { activityTypes } from './Munter';
 
 const defaultProps = {
   id: "abc",
-  speed: 4,
+  activity: "uphill",
   distance: 5,
   elevation: 200,
+  menuItems: activityTypes,
   onChange: jest.fn(),
   onDelete: jest.fn()
 };
@@ -24,39 +26,39 @@ describe('Leg', () => {
 
   describe('onChange is called for', () => {
     it('onSpeedChange', () => {
-      const {onChange, id, speed, distance, elevation} = props;
-      let value = speed + .5;
-      leg.onSpeedChange({floatValue: value});
+      const {onChange, id, activity, distance, elevation} = props;
+      let value = "downhill"
+      leg.onActivityChange(value);
       expect(onChange).toHaveBeenCalledTimes(1)
       expect(onChange).toBeCalledWith({
         id: id,
-        speed: value,
+        activity: value,
         distance: distance,
         elevation: elevation,
       });
     });
 
     it('onDistanceChange', () => {
-      const {onChange, id, speed, distance, elevation} = props;
+      const {onChange, id, activity, distance, elevation} = props;
       let value = distance - 1;
       leg.onDistanceChange({floatValue: value});
       expect(onChange).toHaveBeenCalledTimes(1)
       expect(onChange).toBeCalledWith({
         id: id,
-        speed: speed,
+        activity: activity,
         distance: value,
         elevation: elevation,
       });
     });
 
     it('onElevationChange', () => {
-      const {onChange, id, speed, distance, elevation} = props;
+      const {onChange, id, activity, distance, elevation} = props;
       let value = elevation+50;
       leg.onElevationChange({floatValue: value});
       expect(onChange).toHaveBeenCalledTimes(1)
       expect(onChange).toBeCalledWith({
         id: id,
-        speed: speed,
+        activity: activity,
         distance: distance,
         elevation: value,
       });

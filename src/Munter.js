@@ -5,16 +5,31 @@ import uuid from 'uuid';
 import FaPlus from 'react-icons/lib/fa/plus';
 
 const localStorageKey = 'munter';
+const defaultLegs = [{ activity: "uphill", distance: 8, elevation: 500 }];
+export const activityTypes = [
+  { name: "uphill", description: "Walking or skiing uphill", baseValue: 4},
+  { name: "walking", description: "Walking flat or downhill", baseValue: 6},
+  { name: "downhill", description: "Skiing downhill", baseValue: 10},
+  { name: "bushwhacking", description: "Bushwhacking or other very slow travel", baseValue: 2},
+];
+const activityMap = activityTypes.reduce((accumulator, activity) => {
+  accumulator[activity.name] = activity;
+  return accumulator;
+}, {});
+
+const getSpeed = (activity) => {
+  return activityMap[activity].baseValue
+}
 
 class Munter extends Component {
   constructor(props) {
     super(props);
     let storedState = this.getInitialState();
     if (!storedState) {
-      const order = props.defaultLegs.map((leg) => {
+      const order = defaultLegs.map((leg) => {
         return uuid.v4();
       });
-      const legs = props.defaultLegs.reduce((accumulator, leg, index) => {
+      const legs = defaultLegs.reduce((accumulator, leg, index) => {
         accumulator[order[index]] = leg;
         return accumulator
       }, {});
@@ -41,7 +56,7 @@ class Munter extends Component {
   calculateTime = () => {
     const legs = Object.values(this.state.legs)
     const timeInHours = legs.reduce((sum, leg) => {
-      return sum + (leg.distance + leg.elevation/100)/leg.speed
+      return sum + (leg.distance + leg.elevation/100)/getSpeed(leg.activity)
     }, 0);
     const hours = Math.floor(timeInHours);
     let minutes = Math.round((timeInHours - hours)* 60);
@@ -49,10 +64,10 @@ class Munter extends Component {
     return hours + ":" + minutes;
   }
 
-  onLegChange = ({id, speed, distance, elevation}) => {
+  onLegChange = ({id, activity, distance, elevation}) => {
     let legs = this.state.legs;
     legs[id] = {
-      speed: speed,
+      activity: activity,
       distance: distance,
       elevation: elevation
     };
@@ -65,7 +80,7 @@ class Munter extends Component {
     let legs = this.state.legs;
     const id = uuid.v4();
     legs[id] = {
-      speed: 4,
+      activity: "uphill",
       distance: 0,
       elevation: 0,
     };
@@ -96,11 +111,13 @@ class Munter extends Component {
         <Leg 
           key={key} 
           id={key}
-          speed={leg.speed} 
           distance={leg.distance} 
           elevation={leg.elevation} 
           onChange={this.onLegChange}
-          onDelete={this.deleteLeg}/>
+          onDelete={this.deleteLeg}
+          menuItems={activityTypes}
+          activity={leg.activity}
+        />
       );
     });
   }
@@ -109,15 +126,9 @@ class Munter extends Component {
     return (
       <div className="Munter">
         <p> 
-          Usage: Enter the speed, distance(km), and elevation change(m), for
-          each leg of your trip. Good estimates for speed are:
+          Usage: Enter your activity, distance(km), and elevation change(m), for
+          each leg of your trip.
         </p>
-        <ul className="Munter-list">
-          <li>Uphill travel (foot or skis) = 4</li>
-          <li>Flat or downhill travel = 6</li>
-          <li>Downhill on skis = 10</li>
-          <li>Bushwhacking = 2</li>
-        </ul>
         <h2>Legs</h2>
         <div>
           { this.legs()	}

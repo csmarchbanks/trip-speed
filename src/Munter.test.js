@@ -3,7 +3,7 @@ import ReactDOM from 'react-dom';
 import Munter from './Munter';
 
 const defaultProps = {
-  defaultLegs: [{ speed: 4, distance: 8, elevation: 500 }]
+  defaultLegs: [{ activity: "uphill", distance: 8, elevation: 500 }]
 };
 
 describe('Munter', () => {
@@ -19,10 +19,10 @@ describe('Munter', () => {
 
   it('onLegChange', () => {
     const {id} = munter.legs()[0].props;
-    const speed = 10;
+    const activity = "downhill";
     const distance = 10;
     const elevation = 0;
-    munter.onLegChange({id: id, speed: speed, distance: distance, elevation: elevation})
+    munter.onLegChange({id: id, activity: activity, distance: distance, elevation: elevation})
     expect(munter.calculateTime()).toBe("1:00");
   });
 
