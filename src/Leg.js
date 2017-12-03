@@ -72,14 +72,16 @@ class Leg extends Component {
         <span>Distance: 
           <NumberFormat 
             value={ this.props.distance || "" } 
-            allowNegative={false}
+            decimalScale={ 1 }
+            fixedDecimalScale={ true }
+            allowNegative={ false }
             placeholder={ "Distance (" + this.props.distanceUnit +")" }
             onValueChange={ this.onDistanceChange } /> 
         </span>
         <span>Elevation: 
           <NumberFormat 
             value={ this.props.elevation || "" } 
-            allowNegative={false}
+            allowNegative={ false }
             placeholder={ "Elevation (" + this.props.elevationUnit + ")" }
             onValueChange={ this.onElevationChange } /> 
         </span>
