@@ -126,7 +126,7 @@ class Munter extends Component {
     return (
       <div className="Munter">
         <p> 
-          Usage: Enter your activity, distance(km), and elevation change(m), for
+          Usage: Enter your activity, distance (km), and elevation change (m), for
           each leg of your trip.
         </p>
         <h2>Legs</h2>
