@@ -1,3 +1,7 @@
 .Leg-clickable {
   cursor: pointer;
 }
+
+.Leg .dropdown {
+  width: 240px;
+}

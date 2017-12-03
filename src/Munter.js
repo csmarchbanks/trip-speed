@@ -10,7 +10,7 @@ export const activityTypes = [
   { name: "uphill", description: "Walking or skiing uphill", baseValue: 4},
   { name: "walking", description: "Walking flat or downhill", baseValue: 6},
   { name: "downhill", description: "Skiing downhill", baseValue: 10},
-  { name: "bushwhacking", description: "Bushwhacking or other very slow travel", baseValue: 2},
+  { name: "bushwhacking", description: "Bushwhacking", baseValue: 2},
 ];
 const activityMap = activityTypes.reduce((accumulator, activity) => {
   accumulator[activity.name] = activity;

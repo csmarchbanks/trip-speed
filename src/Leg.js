@@ -52,8 +52,8 @@ class Leg extends Component {
   render() {
     const title = "Activity: " + this.activityDescription();
     return (
-      <div>
-        <DropdownButton id="Activity" title={title}>
+      <div className="Leg">
+        <DropdownButton bsStyle="default" id="activity" title={title}>
           { this.menuItems() }
         </DropdownButton>
         <span>Distance: 
