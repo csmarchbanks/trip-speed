@@ -58,14 +58,16 @@ class Leg extends Component {
         </DropdownButton>
         <span>Distance: 
           <NumberFormat 
-            value={ this.props.distance } 
+            value={ this.props.distance || "" } 
             allowNegative={false}
+            placeholder="Distance (km)"
             onValueChange={ this.onDistanceChange } /> 
         </span>
         <span>Elevation: 
           <NumberFormat 
-            value={ this.props.elevation } 
+            value={ this.props.elevation || "" } 
             allowNegative={false}
+            placeholder="Elevation (m)"
             onValueChange={ this.onElevationChange } /> 
         </span>
         <FaTrashO onClick={ this.onDelete } className="Leg-clickable"/>
