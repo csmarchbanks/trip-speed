@@ -1,10 +1,21 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import NumberFormat from 'react-number-format';
 import './Leg.css';
 import FaTrashO from 'react-icons/lib/fa/trash-o';
 import { DropdownButton, MenuItem } from 'react-bootstrap';
 
 class Leg extends Component {
+  static propTypes = {
+    id: PropTypes.string.isRequired,
+    distance: PropTypes.number,
+    elevation: PropTypes.number,
+    onChange: PropTypes.func.isRequired,
+    onDelete: PropTypes.func.isRequired,
+    activities: PropTypes.array.isRequired,
+    activity: PropTypes.string.isRequired,
+  }
+
   onActivityChange = (activity) => {
     this.props.onChange({
       id: this.props.id,
@@ -37,14 +48,14 @@ class Leg extends Component {
   }
 
   menuItems = () => {
-    return this.props.menuItems.map((menuItem) => {
+    return this.props.activities.map((menuItem) => {
       const active =  menuItem.name === this.props.activity;
       return (<MenuItem key={menuItem.name} eventKey={ menuItem.name } active={active} onClick={ () => this.onActivityChange(menuItem.name) }>{ menuItem.description }</MenuItem>);
     });
   }
 
   activityDescription = () => {
-    return this.props.menuItems.find((item) => {
+    return this.props.activities.find((item) => {
       return item.name === this.props.activity;
     }).description;
   }

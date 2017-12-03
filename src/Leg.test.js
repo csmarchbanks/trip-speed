@@ -8,7 +8,7 @@ const defaultProps = {
   activity: "uphill",
   distance: 5,
   elevation: 200,
-  menuItems: activityTypes,
+  activities: activityTypes,
   onChange: jest.fn(),
   onDelete: jest.fn()
 };

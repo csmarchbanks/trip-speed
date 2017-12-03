@@ -115,7 +115,7 @@ class Munter extends Component {
           elevation={leg.elevation} 
           onChange={this.onLegChange}
           onDelete={this.deleteLeg}
-          menuItems={activityTypes}
+          activities={activityTypes}
           activity={leg.activity}
         />
       );
