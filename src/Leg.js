@@ -7,13 +7,15 @@ import { DropdownButton, MenuItem } from 'react-bootstrap';
 
 class Leg extends Component {
   static propTypes = {
-    id: PropTypes.string.isRequired,
-    distance: PropTypes.number,
-    elevation: PropTypes.number,
-    onChange: PropTypes.func.isRequired,
-    onDelete: PropTypes.func.isRequired,
     activities: PropTypes.array.isRequired,
     activity: PropTypes.string.isRequired,
+    distance: PropTypes.number,
+    elevation: PropTypes.number,
+    id: PropTypes.string.isRequired,
+    onChange: PropTypes.func.isRequired,
+    onDelete: PropTypes.func.isRequired,
+    distanceUnit: PropTypes.string.isRequired,
+    elevationUnit: PropTypes.string.isRequired,
   }
 
   onActivityChange = (activity) => {
@@ -50,7 +52,7 @@ class Leg extends Component {
   menuItems = () => {
     return this.props.activities.map((menuItem) => {
       const active =  menuItem.name === this.props.activity;
-      return (<MenuItem key={menuItem.name} eventKey={ menuItem.name } active={active} onClick={ () => this.onActivityChange(menuItem.name) }>{ menuItem.description }</MenuItem>);
+      return (<MenuItem key={menuItem.name} eventKey={ menuItem.name } active={active} onSelect={ () => this.onActivityChange(menuItem.name) }>{ menuItem.description }</MenuItem>);
     });
   }
 
@@ -71,14 +73,14 @@ class Leg extends Component {
           <NumberFormat 
             value={ this.props.distance || "" } 
             allowNegative={false}
-            placeholder="Distance (km)"
+            placeholder={ "Distance (" + this.props.distanceUnit +")" }
             onValueChange={ this.onDistanceChange } /> 
         </span>
         <span>Elevation: 
           <NumberFormat 
             value={ this.props.elevation || "" } 
             allowNegative={false}
-            placeholder="Elevation (m)"
+            placeholder={ "Elevation (" + this.props.elevationUnit + ")" }
             onValueChange={ this.onElevationChange } /> 
         </span>
         <FaTrashO onClick={ this.onDelete } className="Leg-clickable"/>

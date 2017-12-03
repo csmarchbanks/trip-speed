@@ -4,11 +4,13 @@ import Leg from './Leg';
 import { activityTypes } from './Munter';
 
 const defaultProps = {
-  id: "abc",
+  activities: activityTypes,
   activity: "uphill",
   distance: 5,
+  distanceUnit: "km",
   elevation: 200,
-  activities: activityTypes,
+  elevationUnit: "m",
+  id: "abc",
   onChange: jest.fn(),
   onDelete: jest.fn()
 };

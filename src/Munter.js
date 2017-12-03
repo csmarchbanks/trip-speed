@@ -3,8 +3,11 @@ import './Munter.css';
 import Leg from './Leg';
 import uuid from 'uuid';
 import FaPlus from 'react-icons/lib/fa/plus';
+import { DropdownButton, MenuItem } from 'react-bootstrap';
 
-const localStorageKey = 'munter';
+const localStorageKey = "munter";
+const imperial = "Imperial";
+const metric = "Metric";
 const defaultLegs = [{ activity: "uphill", distance: 8, elevation: 500 }];
 export const activityTypes = [
   { name: "uphill", description: "Walking or skiing uphill", baseValue: 4},
@@ -53,10 +56,38 @@ class Munter extends Component {
     }
   }
 
+  getDistanceUnit = () => {
+    if (this.state.units === imperial) {
+      return "miles";
+    }
+    return "km"
+  }
+
+  getElevationUnit = () => {
+    if (this.state.units === imperial) {
+      return "ft";
+    }
+    return "m";
+  }
+
+  getMetricDistance = (leg) => {
+    if (this.state.units === imperial) {
+      return leg.distance * 1.60934;
+    }
+    return leg.distance;
+  }
+
+  getMetricElevation = (leg) => {
+    if (this.state.units === imperial) {
+      return leg.elevation * 0.3048;
+    }
+    return leg.elevation;
+  }
+
   calculateTime = () => {
     const legs = Object.values(this.state.legs)
     const timeInHours = legs.reduce((sum, leg) => {
-      return sum + (leg.distance + leg.elevation/100)/getSpeed(leg.activity)
+      return sum + (this.getMetricDistance(leg) + this.getMetricElevation(leg)/100)/getSpeed(leg.activity)
     }, 0);
     const hours = Math.floor(timeInHours);
     let minutes = Math.round((timeInHours - hours)* 60);
@@ -109,15 +140,40 @@ class Munter extends Component {
       const leg = this.state.legs[key]
       return (
         <Leg 
-          key={key} 
-          id={key}
-          distance={leg.distance} 
-          elevation={leg.elevation} 
-          onChange={this.onLegChange}
-          onDelete={this.deleteLeg}
-          activities={activityTypes}
-          activity={leg.activity}
+          activities={ activityTypes }
+          activity={ leg.activity }
+          distance={ leg.distance } 
+          distanceUnit={ this.getDistanceUnit() }
+          elevation={ leg.elevation } 
+          elevationUnit={ this.getElevationUnit() }
+          id={ key }
+          key={ key } 
+          onChange={ this.onLegChange }
+          onDelete={ this.deleteLeg }
         />
+      );
+    });
+  }
+
+  onUnitChange = (units) => {
+    this.setState({units: units});
+  }
+
+  getUnitDescriptions = (unit) => {
+    if (unit === imperial) {
+      return "Imperial: Miles and feet";
+    }
+    return "Metric: Kilometers and meters";
+  }
+
+  unitMenuItems = () => {
+    const unitSystems = [metric, imperial];
+    const activeUnits = this.state.units || metric
+    return unitSystems.map((units) => {
+      return (
+        <MenuItem key={ units } active={ activeUnits === units } eventKey={ units } onSelect={ this.onUnitChange }>
+          { units }
+        </MenuItem>
       );
     });
   }
@@ -126,9 +182,15 @@ class Munter extends Component {
     return (
       <div className="Munter">
         <p> 
-          Usage: Enter your activity, distance (km), and elevation change (m), for
-          each leg of your trip.
+          Usage: Enter your activity, distance ({ this.getDistanceUnit() }), and 
+          elevation change ({ this.getElevationUnit() }), for each leg of your trip.
         </p>
+        <div>
+          Units: 
+          <DropdownButton id="units" title={this.state.units || metric}>
+            { this.unitMenuItems() }
+          </DropdownButton>
+        </div>
         <h2>Legs</h2>
         <div>
           { this.legs()	}
