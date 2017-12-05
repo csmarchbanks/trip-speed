@@ -2,6 +2,7 @@
   "name": "trip-speed",
   "version": "0.1.0",
   "private": true,
+  "homepage" : "https://chrismarchbanks.com/trip-speed",
   "dependencies": {
     "bootstrap": "3",
     "moment": "^2.19.3",
