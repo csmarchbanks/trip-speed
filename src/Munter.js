@@ -89,8 +89,9 @@ class Munter extends Component {
     const timeInHours = legs.reduce((sum, leg) => {
       return sum + (this.getMetricDistance(leg) + this.getMetricElevation(leg)/100)/getSpeed(leg.activity)
     }, 0);
-    const hours = Math.floor(timeInHours);
-    let minutes = Math.round((timeInHours - hours)* 60);
+    const totalMinutes = Math.round(timeInHours * 60);
+    const hours = Math.floor(totalMinutes / 60);
+    let minutes = totalMinutes % 60;
     minutes = minutes < 10 ? '0' + minutes : minutes;
     return hours + ":" + minutes;
   }
